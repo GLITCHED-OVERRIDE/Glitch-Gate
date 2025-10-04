@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Glitch Gate</title>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+
+    /* Loader container */
+    #loader {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background: #000;
+      z-index: 9999;
+      transition: opacity 0.6s ease;
+    }
+
+    /* Solid black disc behind image */
+    .logo-wrapper {
+      position: relative;
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      background: #000;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      box-shadow: 0 0 25px red, 0 0 50px rgba(255, 0, 0, 0.4);
+    }
+
+    /* Image (with anti-transparency fixes) */
+    .logo-wrapper img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      image-rendering: crisp-edges;
+      background: #000; /* kills any checker transparency */
+      filter: brightness(0.95) contrast(1.1); /* prevents faint transparency grid */
+      display: block;
+    }
+
+    /* Red glowing spinner */
+    .spinner {
+      position: absolute;
+      width: 230px;
+      height: 230px;
+      border: 6px solid rgba(255, 0, 0, 0.2);
+      border-top: 6px solid red;
+      border-radius: 50%;
+      box-shadow: 0 0 25px red, 0 0 50px rgba(255, 0, 0, 0.4);
+      animation: spin 1.5s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Iframe */
+    iframe {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #000;
+      display: block;
+    }
+
+    .hidden {
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+  </style>
+</head>
+<body>
+  <!-- Loader -->
+  <div id="loader">
+    <div class="spinner"></div>
+    <div class="logo-wrapper">
+      <img src="https://raw.githubusercontent.com/GLITCHED-OVERRIDE/Glitch-Gate-Proxy/refs/heads/main/Glitch%20Gate1.png" alt="Loading">
+    </div>
+  </div>
+
+  <!-- Iframe -->
+  <iframe id="mainFrame" src="https://edgedcircles.com/uv/service/hvtrs8%2F-wuw%2Cgmoelg.aoo%2Fue%60hr%3Fqa'3FX'24saa%5Deqv'3Fa49d5c9a3%3A873%601%3A%2506muvpwt'3Fsgapcj%2506tef%251D2ajUIEuis3L7u9KqSAzWJClkEHaQxOakS0vQFCCQmAC%3D%24sc%3DZ%26tef%3D2ajUIEuigt%3AKX9%5BqSAzWM0SIJHPo%3ABK4Sk%5BoKCCE"></iframe>
+
+  <script>
+    const loader = document.getElementById('loader');
+    const iframe = document.getElementById('mainFrame');
+
+    function showLoader() {
+      loader.classList.remove('hidden');
+    }
+
+    function hideLoader() {
+      loader.classList.add('hidden');
+    }
+
+    // Show loader initially
+    showLoader();
+
+    // Hide when iframe loads
+    iframe.addEventListener('load', () => {
+      setTimeout(() => hideLoader(), 500);
+    });
+
+    // Detect iframe navigation (cross-origin safe)
+    let lastURL = '';
+    setInterval(() => {
+      try {
+        const currentURL = iframe.contentWindow.location.href;
+        if (currentURL !== lastURL) {
+          lastURL = currentURL;
+          showLoader();
+        }
+      } catch (e) {
+        // Cross-origin - can't access directly
+      }
+    }, 1000);
+
+    iframe.onload = () => setTimeout(hideLoader, 800);
+  </script>
+</body>
+</html>
